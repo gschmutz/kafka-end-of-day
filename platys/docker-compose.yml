@@ -28,8 +28,11 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
 #  ================================== Kafka ========================================== #
   kafka-1:
@@ -67,8 +70,11 @@ services:
       KAFKA_JMX_PORT: 9992
       KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9992
       KAFKA_JMX_HOSTNAME: ${PUBLIC_IP:-127.0.0.1}
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   kafka-2:
     image: confluentinc/cp-server:7.0.0
@@ -105,8 +111,11 @@ services:
       KAFKA_JMX_PORT: 9993
       KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9993
       KAFKA_JMX_HOSTNAME: ${PUBLIC_IP:-127.0.0.1}
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   kafka-3:
     image: confluentinc/cp-server:7.0.0
@@ -143,8 +152,11 @@ services:
       KAFKA_JMX_PORT: 9994
       KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9994
       KAFKA_JMX_HOSTNAME: ${PUBLIC_IP:-127.0.0.1}
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   #  ================================== Kafka Connect ========================================== #
   kafka-connect-1:
@@ -188,9 +200,12 @@ services:
       # See https://docs.confluent.io/current/connect/security.html#externalizing-secrets
       CONNECT_CONFIG_PROVIDERS: file
       CONNECT_CONFIG_PROVIDERS_FILE_CLASS: org.apache.kafka.common.config.provider.FileConfigProvider
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
       - ./plugins/kafka-connect:/etc/kafka-connect/addl-plugins
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     command:
       # In the command section, $ are replaced with $$ to avoid the error 'Invalid interpolation format for "command" option'
       - bash
@@ -252,11 +267,14 @@ services:
       KSQL_CONFIG_DIR: /etc/ksql
       KSQL_KSQL_EXTENSION_DIR: /etc/ksqldb/ext/
       KSQL_JMX_OPTS: -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1095 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1095
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
       - ./plugins/ksql:/etc/ksqldb/ext
       - ./conf/ksqldb/etc/log4j.properties:/etc/ksqldb/log4j.properties
       - ./plugins/kafka-connect:/etc/kafka-connect/addl-plugins
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   # Access the cli by running:
   # > docker exec -it ksqldb-cli ksql http://ksqldb-server-1:8088
@@ -268,8 +286,12 @@ services:
       com.platys.name: ksqldb-cli
     depends_on:
       - ksqldb-server-1
+    environment:
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     entrypoint: /bin/sh
     tty: true
     restart: unless-stopped
@@ -298,8 +320,11 @@ services:
       SCHEMA_REGISTRY_ACCESS_CONTROL_ALLOW_METHODS: GET,POST,PUT,OPTIONS
       SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: info
       SCHEMA_REGISTRY_DEBUG: 'False'
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   #  ================================== Schema Registry UI ========================================== #
   schema-registry-ui:
@@ -316,9 +341,12 @@ services:
       - 28102:8000
     environment:
       SCHEMAREGISTRY_URL: http://${PUBLIC_IP}:8081
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
       - ./conf/resolv.conf:/etc/resolv.conf:ro
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   #  ================================== Confluent Control Center ========================================== #
   control-center:
@@ -346,8 +374,11 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 3
       CONFLUENT_METRICS_TOPIC_REPLICATION: 3
       PORT: 9021
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   #  ================================== kcat (used to be kafkacat)  ========================================== #
   kcat:
@@ -356,8 +387,12 @@ services:
     hostname: kcat
     labels:
       com.platys.name: kcat
+    environment:
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     entrypoint:
       - /bin/sh
       - -c
@@ -378,9 +413,12 @@ services:
     environment:
       CONNECT_URL: http://${PUBLIC_IP}:8083
       PROXY: 'true'
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
       - ./conf/resolv.conf:/etc/resolv.conf:ro
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   #  ================================== Apache Kafka HQ (AKHQ) ========================================== #
   akhq:
@@ -406,10 +444,13 @@ services:
               connect:
                 - name: "connect-custer-1"
                   url: "http://kafka-connect-1:8083"
+      TZ: Europe/Zurich
     depends_on:
       - kafka-1
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   #  ================================== StreamSets DataCollector ========================================== #
   streamsets-1:
@@ -433,10 +474,13 @@ services:
       SDC_CONF_MONITOR_MEMORY: 'true'
       SDC_CONF_PIPELINE_MAX_RUNNERS_COUNT: 50
       SDC_CONF_http_authentication: form
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
       - ./conf/streamsets/pre-docker-entrypoint.sh:/pre-docker-entrypoint.sh
       - ./plugins/streamsets/user-libs:/opt/streamsets-datacollector-user-libs:Z
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     ulimits:
       nofile:
         soft: 32768
@@ -463,17 +507,24 @@ services:
     environment:
       # this is only generated to keep the structure valid if no other env variables are present
       IGNORE: ignore
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
       - ./conf/starburstdata/single/config.properties:/etc/starburst/config.properties
       - ./conf/starburstdata/single/node.properties:/etc/starburst/node.properties
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   trino-cli:
     image: trivadis/trino-cli:latest
     hostname: trino-cli
     container_name: trino-cli
+    environment:
+      TZ: Europe/Zurich
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     tty: true
     restart: unless-stopped
   #  ================================== cAdvisor ========================================== #
@@ -492,8 +543,11 @@ services:
       - REMOTE_SSH_PORT=22
       - REMOTE_SSH_USER=
       - WETTY_PORT=3000
+      - TZ='Europe/Zurich'
     volumes:
       - ./data-transfer:/data-transfer
+      - ./etc/timezone:/etc/timezone:ro
+      - ./etc/localtime:/etc/localtime:ro
     restart: unless-stopped
   #  ================================== markdown-viewer ========================================== #
   markdown-viewer:

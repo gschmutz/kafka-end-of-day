@@ -10,7 +10,7 @@
       # Global configuration, valid for all or a group of services
       # ========================================================================
       # Timezone, use a Linux string such as Europe/Zurich or America/New_York
-      use_timezone: ''
+      use_timezone: 'Europe/Zurich'
       # the name of the repository to use for private images, which are not on docker hub (currently only Oracle images)
       private_docker_repository_name: 'trivadis'
       # the UID to use when using the "user" property in a service to override the user inside the container
