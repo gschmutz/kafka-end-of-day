@@ -42,6 +42,11 @@
                 "type": "VARCHAR"
             },
             {
+                "name": "marker",
+                "mapping": "marker",
+                "type": "VARCHAR"
+            },
+            {
                 "name": "EventTimestamp",
                 "mapping": "EventTimestamp",
                 "type": "BIGINT"
