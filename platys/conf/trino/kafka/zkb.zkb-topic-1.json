@@ -1,5 +1,5 @@
 {
-    "tableName": "zkb-topic-1",
+    "tableName": "zkb_topic_1",
     "schemaName": "zkb",
     "topicName": "zkb-topic-1",
     "key": {
@@ -22,13 +22,13 @@
                 "type": "VARCHAR"
             },
             {
-                "name": "secondsWithin",
+                "name": "seconds_within",
                 "mapping": "secondsWithin",
                 "type": "VARCHAR"
             },
             {
-                "name": "minutesWithin",
-                "mapping": "minutesWithin",
+                "name": "minutes_within",
+                "mapping": "minuteWithin",
                 "type": "VARCHAR"
             },
             {
