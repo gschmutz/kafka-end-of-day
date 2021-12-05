@@ -1,0 +1,56 @@
+{
+    "tableName": "zkb-topic-1",
+    "schemaName": "zkb",
+    "topicName": "zkb-topic-1",
+    "key": {
+        "dataFormat": "raw",
+        "fields": [
+            {
+                "name": "kafka_key",
+                "dataFormat": "VARCHAR",
+                "type": "VARCHAR",
+                "hidden": "false"
+            }
+        ]
+    },
+    "message": {
+        "dataFormat": "json",
+        "fields": [
+            {
+                "name": "seconds",
+                "mapping": "seconds",
+                "type": "VARCHAR"
+            },
+            {
+                "name": "secondsWithin",
+                "mapping": "secondsWithin",
+                "type": "VARCHAR"
+            },
+            {
+                "name": "minutesWithin",
+                "mapping": "minutesWithin",
+                "type": "VARCHAR"
+            },
+            {
+                "name": "period",
+                "mapping": "period",
+                "type": "VARCHAR"
+            },
+            {
+                "name": "value",
+                "mapping": "value",
+                "type": "VARCHAR"
+            },
+            {
+                "name": "EventTimestamp",
+                "mapping": "EventTimestamp",
+                "type": "BIGINT"
+            },
+            {
+                "name": "EventTimestampAsDateTime",
+                "mapping": "EventTimestampAsDateTime",
+                "type": "VARCHAR"
+            }
+        ]
+    }
+}
