@@ -9,7 +9,7 @@
                 "name": "kafka_key",
                 "dataFormat": "VARCHAR",
                 "type": "VARCHAR",
-                "hidden": "false"
+                "hidden": "true"
             }
         ]
     },
